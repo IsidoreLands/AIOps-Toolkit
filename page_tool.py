@@ -3,7 +3,7 @@
 """
 A definitive, general-purpose tool for MediaWiki operations.
 Now includes LLM-powered summarization.
-Version 18 (Stable Main Dispatcher)
+Version 18.0.1 (Stable Main Dispatcher)
 """
 
 import sys
@@ -163,8 +163,7 @@ def write_template_field(site, args.title, args.template_name, args.target_id_pa
                 break # Assuming only one such template instance needs editing
 
     if not template_found_and_edited:
-        print(f"Error: Template '{template_name}' with '{target_id_param_name}={target_id_value}' and field '{field_to_edit}'
-not found or field not editable as expected.")
+        print(f"Error: Template '{template_name}' with '{target_id_param_name}={target_id_value}' and field '{field_to_edit}' not found or field not editable as expected.")
         sys.exit(1)
 
     page.text = str(wikicode)
@@ -213,7 +212,7 @@ def summarize_section(site, page_title, section_title):
 # --- Main Dispatcher ---
 def main():
     parser = argparse.ArgumentParser(
-        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18 (Stable Main Dispatcher)',
+        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.1 (Stable Main Dispatcher)',
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--action',
