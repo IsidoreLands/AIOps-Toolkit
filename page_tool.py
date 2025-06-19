@@ -147,10 +147,8 @@ def append_to_section(site, page_title, section_title, append_content, summary):
         print(f"An unexpected error occurred during append_to_section save: {e}")
         sys.exit(1)
 
-def write_template_field(site, args.title, args.template_name, args.target_id_param, args.target_id_value, args.field, value_to_write, summary):
-    """Writes a value to a specific field in a targeted template on a page."""
+def write_template_field(site, args.title, args.template_name, args.target_id_param, args.target_id_value, args.field, value_to_write, summary): """Writes a value to a specific field in a targeted template on a page."""
     page, wikicode = get_page_and_wikicode(site, page_title) # Ensure page exists
-
     template_found_and_edited = False
     for template in wikicode.filter_templates():
         if template.name.matches(template_name):
