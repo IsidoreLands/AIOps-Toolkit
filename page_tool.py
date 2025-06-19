@@ -3,7 +3,7 @@
 """
 A definitive, general-purpose tool for MediaWiki operations.
 Now includes LLM-powered summarization.
-Version 18.0.1 (Stable Main Dispatcher)
+Version 18.0.2 (Stable Main Dispatcher)
 """
 
 import sys
@@ -212,7 +212,7 @@ def summarize_section(site, page_title, section_title):
 # --- Main Dispatcher ---
 def main():
     parser = argparse.ArgumentParser(
-        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.1 (Stable Main Dispatcher)',
+        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.2 (Stable Main Dispatcher)',
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--action',
@@ -223,8 +223,7 @@ def main():
     parser.add_argument('--title', required=True, help="The title of the MediaWiki page.")
     parser.add_argument('--content', help="Direct string content for write/overwrite/append actions.")
     parser.add_argument('--from-file', help="Path to a file containing content for write/overwrite/append actions.")
-    parser.add_argument('--section-title', help="The title of the section for 'append_to_section' or 'summarize_section'. Use
-'0' or 'lead' for the lead section.")
+    parser.add_argument('--section-title', help="The title of the section for 'append_to_section' or 'summarize_section'. Use '0' or 'lead' for the lead section.")
     parser.add_argument('--find', help="String to find for 'find_and_replace'.")
     parser.add_argument('--replace', help="String to replace with for 'find_and_replace'. Can be empty.")
     parser.add_argument('--replace-count', type=int, default=1, help="Occurrences to replace for 'find_and_replace'. Use 0 for all. Default is 1.")
