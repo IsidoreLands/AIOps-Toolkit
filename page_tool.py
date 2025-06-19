@@ -3,7 +3,7 @@
 """
 A definitive, general-purpose tool for MediaWiki operations.
 Now includes LLM-powered summarization.
-Version 18.0.6 (Stable Main Dispatcher)
+Version 18.0.7 (Stable Main Dispatcher)
 """
 
 import sys
@@ -147,10 +147,8 @@ def append_to_section(site, page_title, section_title, append_content, summary):
         print(f"An unexpected error occurred during append_to_section save: {e}")
         sys.exit(1)
 
-
-
 def write_template_field(site, args.title, args.template_name, args.target_id_param, args.target_id_value, args.field, value_to_write, summary):
-    """Writes a value to a specific field in a targeted template on a page."""
+    """"Writes a value to a specific field in a targeted template on a page.""""
     page, wikicode = get_page_and_wikicode(site, page_title) # Ensure page exists
     template_found_and_edited = False
     for template in wikicode.filter_templates():
@@ -213,7 +211,7 @@ def summarize_section(site, page_title, section_title):
 # --- Main Dispatcher ---
 def main():
     parser = argparse.ArgumentParser(
-        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.6 (Stable Main Dispatcher)',
+        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.7 (Stable Main Dispatcher)',
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--action',
@@ -261,9 +259,9 @@ def main():
 
     # Default summary, can be more specific per action if needed
     summary_action_verb = args.action.replace('_', ' ')
-    summary = f"AIOps Toolkit (v18.0.6): {summary_action_verb} on page '{args.title}'"
+    summary = f"AIOps Toolkit (v18.0.7): {summary_action_verb} on page '{args.title}'"
     if args.action == 'summarize_section': # summarize_section doesn't make an edit, so summary is less relevant unless logged
-        summary = f"AIOps Toolkit (v18.0.6): analyzed section '{args.section_title}' on page '{args.title}' for summarization"
+        summary = f"AIOps Toolkit (v18.0.7): analyzed section '{args.section_title}' on page '{args.title}' for summarization"
 
     # Dispatch to appropriate action function
     if args.action == 'write':
