@@ -3,7 +3,7 @@
 """
 A definitive, general-purpose tool for MediaWiki operations.
 Now includes LLM-powered summarization.
-Version 18.0.3 (Stable Main Dispatcher)
+Version 18.0.4 (Stable Main Dispatcher)
 """
 
 import sys
@@ -211,7 +211,7 @@ def summarize_section(site, page_title, section_title):
 # --- Main Dispatcher ---
 def main():
     parser = argparse.ArgumentParser(
-        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.3 (Stable Main Dispatcher)',
+        description='A unified tool for MediaWiki editing, now with LLM summarization. Version 18.0.4 (Stable Main Dispatcher)',
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--action',
@@ -259,9 +259,9 @@ def main():
 
     # Default summary, can be more specific per action if needed
     summary_action_verb = args.action.replace('_', ' ')
-    summary = f"AIOps Toolkit (v17.0.1): {summary_action_verb} on page '{args.title}'"
+    summary = f"AIOps Toolkit (v18.0.4): {summary_action_verb} on page '{args.title}'"
     if args.action == 'summarize_section': # summarize_section doesn't make an edit, so summary is less relevant unless logged
-        summary = f"AIOps Toolkit (v17.0.1): analyzed section '{args.section_title}' on page '{args.title}' for summarization"
+        summary = f"AIOps Toolkit (v18.0.4): analyzed section '{args.section_title}' on page '{args.title}' for summarization"
 
     # Dispatch to appropriate action function
     if args.action == 'write':
