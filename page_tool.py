@@ -236,9 +236,9 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--action',
-                        choices=['write', 'overwrite', 'append_to_section', 'find_and_replace', 'write_field', 'summarize_section'],
-                        required=True,
-                        help="The action to perform.")
+                    choices=['write', 'overwrite', 'append_to_section', 'find_and_replace', 'write_field', 'summarize_section', 'append_to_page'],
+                    required=True,
+                    help="The action to perform.")
     # ... (all other argparse arguments as they were, they are correct) ...
     parser.add_argument('--title', required=True, help="The title of the MediaWiki page.")
     parser.add_argument('--content', help="Direct string content for write/overwrite/append actions.")
@@ -308,6 +308,9 @@ def main():
         # Ensure args.value is provided, even if it's an empty string. If not provided at all, it's None.
         value_to_write = args.value if args.value is not None else ""
         write_template_field(site, args.title, args.template_name, args.target_id_param, args.target_id_value, args.field, value_to_write, summary)
+    elif args.action == 'append_to_page':
+        # This action requires content, which is already handled by content_for_actions
+        append_to_page(site, args.title, content_for_actions, summary)
     elif args.action == 'append_to_page':
         # This action requires content, which is already handled by content_for_actions
         append_to_page(site, args.title, content_for_actions, summary)
