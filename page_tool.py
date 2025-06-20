@@ -208,6 +208,27 @@ def summarize_section(site, page_title, section_title):
     print(llm_summary)
     print("--------------------------")
 
+def append_to_page(site, page_title, append_content, summary):
+    """Appends content to the very end of a page."""
+    page, _ = get_page_and_wikicode(site, page_title) # Ensure page exists
+    
+    # Ensure there's a newline before the new content
+    if not page.text.endswith('\n'):
+        page.text += '\n'
+        
+    page.text += append_content
+    
+    try:
+        page.save(summary=summary, bot=True)
+        print(f"Success: Content appended to page '{page_title}'.")
+        print(f"Revision URL: {page.permalink()}")
+    except pywikibot.exceptions.Error as e:
+        print(f"Error saving (append_to_page) page '{page_title}': {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"An unexpected error occurred during append_to_page save: {e}")
+        sys.exit(1)
+
 # --- Main Dispatcher ---
 def main():
     parser = argparse.ArgumentParser(
