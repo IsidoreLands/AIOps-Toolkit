@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 #
 # AIOps Toolkit: Automated VLOR Backup Utility
-# Version: 6.0.0 (Dual Repository Push)
+# Version: 5.1.0 (Dashboard with Resources)
 #
-# This script discovers VLORs, generates a dashboard, backs up raw VLORs
-# to a private repo, and pushes the public dashboard to a separate public repo.
+# This script discovers VLORs via categories, generates a summary dashboard,
+# and opens a pull request.
 
 import os
 import subprocess
@@ -28,6 +28,7 @@ def get_vlor_pages_from_categories(site):
     """Reads wiki categories to get a list of VLOR pages."""
     all_vlor_pages = []
     page_titles = set()
+
     print(f"Querying for pages in {len(DISCOVERY_CATEGORIES)} categories...")
     for cat_name in DISCOVERY_CATEGORIES:
         vlor_category = pywikibot.Category(site, cat_name)
@@ -37,6 +38,7 @@ def get_vlor_pages_from_categories(site):
                 all_vlor_pages.append(page)
                 page_titles.add(page.title())
         print(f"  - Found {len(pages)} pages in '{cat_name}'.")
+    
     print(f"Total unique VLOR pages found: {len(all_vlor_pages)}.")
     return all_vlor_pages
 
@@ -65,38 +67,49 @@ def run_command(command, cwd, env=None):
 
 def generate_dashboard(vlor_pages):
     """Parses VLOR pages and generates a Markdown dashboard."""
-    # (Content of this function remains the same as version 5.1.0)
     dashboard_content = f"# Operations Dashboard\n_Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}_\n\n"
     dashboard_content += "This document provides a consolidated, high-level overview of all active and planned operational loops.\n\n"
+
     for page in sorted(vlor_pages, key=lambda p: p.title()):
         wikicode = mwparserfromhell.parse(page.text)
         operation_name = "Unknown"
+        # Attempt to find the operation name from the first template
         for template in wikicode.filter_templates(matches="IsidoreOodaVLOR"):
             if template.has("operation"):
                 operation_name = template.get("operation").value.strip()
                 break
+
         dashboard_content += f"## From VLOR: [[{page.title()}]] (Operation: {operation_name})\n\n"
+
         for template in wikicode.filter_templates(matches="IsidoreOodaVLOR"):
             try:
                 loop_id = template.get("loop_id").value.strip()
                 human_title = template.get("human_title").value.strip()
                 status = template.get("status").value.strip()
                 description = template.get("description").value.strip()
+                
                 dashboard_content += f"### {human_title} (`{loop_id}`)\n"
                 dashboard_content += f"**Status:** {status}\n\n"
                 dashboard_content += f"**Description:** {description}\n\n"
+
+                # New logic to add resources if they exist
                 if template.has("resources"):
                     resources = template.get("resources").value.strip()
-                    if resources:
+                    if resources: # Ensure it's not empty
                         dashboard_content += f"**Anticipated Resources:** `{resources}`\n\n"
+
                 dashboard_content += "---\n"
             except ValueError:
+                # This can happen if a template parameter is missing
                 continue
+    
     return dashboard_content
 
 def main():
     """Main execution function."""
-    print("="*60 + "\nREMINDER: The GitHub PAT has a 90-day expiration.\n" + "="*60)
+    print("="*60 + "\nREMINDER: The GitHub Personal Access Token used by this script")
+    print("          has a 90-day expiration. Please ensure it is valid.")
+    print("="*60)
     
     print(f"--- Starting Dual-Repo VLOR Backup @ {datetime.now()} ---")
     
