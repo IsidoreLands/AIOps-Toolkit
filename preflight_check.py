@@ -14,9 +14,9 @@ def get_dynamic_vlor_map(site):
         for page in pages:
             title = page.title()
             wikicode = mwparserfromhell.parse(page.text)
-            for template in wikicode.filter_templates(matches="IsidoreOodaVLOR"):
-                if template.has("operation"):
-                    operation = template.get("operation").value.strip().upper()
+            for t in wikicode.filter_templates(matches="IsidoreOodaVLOR"):
+                if t.has("operation"):
+                    operation = t.get("operation").value.strip().upper()
                     vlor_map[operation] = title
                     print(f"  - Mapped: {operation} -> {title}")
     print(f"Total unique VLOR pages mapped: {len(vlor_map)}.")
@@ -83,8 +83,12 @@ def preflight_check():
     
     vlor_url = f"https://www.ooda.wiki/wiki/{vlor_page_title.replace(' ', '_')}"
     page_content = f"== Session Context: {loop_id} ==\n"
+    page_content += f"'''Date:''' {date_str}\n"
+    page_content += f"'''Session:''' {session_name}\n"
+    page_content += f"'''Loop ID:''' {loop_id}\n"
     page_content += f"'''Source VLOR:''' [[{vlor_page_title}]] ([{vlor_url} link])\n\n"
-    page_content += f"<pre>\n{loop_content}\n</pre>"
+    page_content += f"<pre>\n{loop_content}\n</pre>\n\n"
+    page_content += "== Log Summary ==\n(To be updated post-completion with tools built, challenges, changes, and costs)\n"
     
     ologo_page.text = page_content
     try:
