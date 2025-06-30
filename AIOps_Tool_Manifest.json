@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "tools": [
+    {"name": "page_tool.py", "version": "1.0", "path": "AIOps-Toolkit/page_tool.py", "description": "Wiki page manipulation"},
+    {"name": "update_vlor_progress.py", "version": "1.4.8", "path": "AIOps-Toolkit/update_vlor_progress.py", "description": "VLOR progress tracking"},
+    {"name": "llm_service.py", "version": "1.0", "path": "AIOps-Toolkit/llm_service.py", "description": "LLM integration"},
+    {"name": "create_mission_log.py", "version": "1.0", "path": "AIOps-Toolkit/create_mission_log.py", "description": "Mission log creation"},
+    {"name": "google_tools.py", "version": "1.0", "path": "AIOps-Toolkit/google_tools.py", "description": "Google API tools"}
+  ]
+}
